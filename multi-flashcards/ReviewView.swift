@@ -14,16 +14,17 @@ struct ReviewView: View {
     
     var body: some View {
         VStack {
-            
             TabView (selection: $current) {
                 ForEach(0 ..< deck.cards.count, id: \.self) { index in
-                    VStack {
-                        Text(deck.cards[index].term)
-                            .frame(minWidth: 180, minHeight: 120)
-                            .padding()
-                            .background(.gray.opacity(0.25))
-                            .clipShape(.rect(cornerRadius: 12))
-                    }
+                    CardView(card: deck.cards[index])
+                        .clipShape(.rect(cornerRadius: 12.0))
+                        .contentShape(.contextMenuPreview, .rect(cornerRadius: 12.0))
+                        .contextMenu {
+                            Button("Delete card", systemImage: "trash", role: .destructive) {
+                                deck.cards.remove(at: index)
+                            }
+                        }
+                        .padding()
                 }
                 
                 VStack {
@@ -32,8 +33,9 @@ struct ReviewView: View {
                         current = 0
                     }
                 }
-                    .tag(deck.cards.count)
+                .tag(deck.cards.count)
             }
+            .animation(.default, value: current)
             #if os(iOS)
             .tabViewStyle(.page)
             #endif

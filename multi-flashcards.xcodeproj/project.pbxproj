@@ -15,6 +15,7 @@
 		BD81DE7D2AE461E0009C6D4B /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD81DE7C2AE461E0009C6D4B /* Card.swift */; };
 		BD81DE7F2AE461F8009C6D4B /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD81DE7E2AE461F8009C6D4B /* Deck.swift */; };
 		BDE1EB782AE469AB00ED1216 /* DeckManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE1EB772AE469AB00ED1216 /* DeckManagerView.swift */; };
+		BDE6F5E22AE74C5B00FCDB8E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE6F5E12AE74C5B00FCDB8E /* CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		BD81DE7C2AE461E0009C6D4B /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		BD81DE7E2AE461F8009C6D4B /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		BDE1EB772AE469AB00ED1216 /* DeckManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckManagerView.swift; sourceTree = "<group>"; };
+		BDE6F5E12AE74C5B00FCDB8E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				BD81DE6F2AE4611E009C6D4B /* ContentView.swift */,
 				BD5C228E2AE4789D007DD907 /* ReviewView.swift */,
 				BDE1EB772AE469AB00ED1216 /* DeckManagerView.swift */,
+				BDE6F5E12AE74C5B00FCDB8E /* CardView.swift */,
 				BD81DE7C2AE461E0009C6D4B /* Card.swift */,
 				BD81DE7E2AE461F8009C6D4B /* Deck.swift */,
 				BD81DE712AE4611F009C6D4B /* Assets.xcassets */,
@@ -151,6 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDE6F5E22AE74C5B00FCDB8E /* CardView.swift in Sources */,
 				BD81DE7F2AE461F8009C6D4B /* Deck.swift in Sources */,
 				BD81DE702AE4611E009C6D4B /* ContentView.swift in Sources */,
 				BDE1EB782AE469AB00ED1216 /* DeckManagerView.swift in Sources */,

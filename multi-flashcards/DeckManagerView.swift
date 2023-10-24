@@ -22,6 +22,7 @@ struct DeckManagerView: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundColor(.accentColor)
+                .onSubmit(insertNewCard)
             
             TextField("Term", text: $term)
                 .font(.headline)
@@ -30,6 +31,7 @@ struct DeckManagerView: View {
                 .lineLimit(3...8)
                 .frame(minHeight: 36)
                 .textFieldStyle(.roundedBorder)
+                .onSubmit(insertNewCard)
             Spacer()
             Button("Add Card", systemImage: "plus", action: insertNewCard)
                 .buttonStyle(.bordered)
@@ -41,7 +43,6 @@ struct DeckManagerView: View {
     
     var body: some View {
         NavigationStack {
-            
             List {
                 ForEach(deck.cards) { card in
                     VStack(alignment: .leading) {
@@ -60,14 +61,14 @@ struct DeckManagerView: View {
             }
             .navigationTitle("Your flashcards")
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(placement: .automatic) {
                     Button("Add card", systemImage: "plus") {
                         showAddSheet = true
                     }
                 }
                 
                 #if os(iOS)
-                ToolbarItem(placement: .secondaryAction) {
+                ToolbarItem(placement: .automatic) {
                     EditButton()
                 }
                 #endif
