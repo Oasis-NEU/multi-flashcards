@@ -42,42 +42,44 @@ struct DeckManagerView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(deck.cards) { card in
-                    VStack(alignment: .leading) {
-                        Text(card.term)
-                            .font(.headline)
-                        Text(card.definition)
-                            .font(.caption)
+        AsyncContentView(source: self.deck) { props in
+            NavigationStack {
+                List {
+                    ForEach(props.cards) { card in
+                        VStack(alignment: .leading) {
+                            Text(card.term)
+                                .font(.headline)
+                            Text(card.definition)
+                                .font(.caption)
+                        }
                     }
+                    .onMove(perform: { source, destination in
+                        deck.cards.move(fromOffsets: source, toOffset: destination)
+                    })
+                    .onDelete(perform: { offsets in
+                        deck.cards.remove(atOffsets: offsets)
+                    })
                 }
-                .onMove(perform: { source, destination in
-                    deck.cards.move(fromOffsets: source, toOffset: destination)
-                })
-                .onDelete(perform: { offsets in
-                    deck.cards.remove(atOffsets: offsets)
-                })
-            }
-            .navigationTitle("Your flashcards")
-            .toolbar {
-                ToolbarItem(placement: .automatic) {
-                    Button("Add card", systemImage: "plus") {
-                        showAddSheet = true
+                .navigationTitle("Your flashcards")
+                .toolbar {
+                    ToolbarItem(placement: .automatic) {
+                        Button("Add card", systemImage: "plus") {
+                            showAddSheet = true
+                        }
                     }
+                    
+#if os(iOS)
+                    ToolbarItem(placement: .automatic) {
+                        EditButton()
+                    }
+#endif
                 }
-                
-                #if os(iOS)
-                ToolbarItem(placement: .automatic) {
-                    EditButton()
-                }
-                #endif
             }
-        }
-        .sheet(isPresented: $showAddSheet) {
-            addCardSheet
-                .padding()
-                .presentationDetents([.medium, .large])
+            .sheet(isPresented: $showAddSheet) {
+                addCardSheet
+                    .padding()
+                    .presentationDetents([.medium, .large])
+            }
         }
     }
     

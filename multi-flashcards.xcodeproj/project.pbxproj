@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		159539642B533A9B0093EBD0 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159539612B533A9B0093EBD0 /* LoadingState.swift */; };
+		159539652B533A9B0093EBD0 /* LoadableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159539622B533A9B0093EBD0 /* LoadableObject.swift */; };
+		159539662B533A9B0093EBD0 /* AsyncContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159539632B533A9B0093EBD0 /* AsyncContentView.swift */; };
+		159539682B533B1A0093EBD0 /* APIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159539672B533B1A0093EBD0 /* APIHandler.swift */; };
 		BD5C228F2AE4789D007DD907 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C228E2AE4789D007DD907 /* ReviewView.swift */; };
 		BD81DE6E2AE4611E009C6D4B /* multi_flashcardsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD81DE6D2AE4611E009C6D4B /* multi_flashcardsApp.swift */; };
 		BD81DE702AE4611E009C6D4B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD81DE6F2AE4611E009C6D4B /* ContentView.swift */; };
@@ -19,6 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		159539612B533A9B0093EBD0 /* LoadingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
+		159539622B533A9B0093EBD0 /* LoadableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadableObject.swift; sourceTree = "<group>"; };
+		159539632B533A9B0093EBD0 /* AsyncContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncContentView.swift; sourceTree = "<group>"; };
+		159539672B533B1A0093EBD0 /* APIHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHandler.swift; sourceTree = "<group>"; };
 		BD5C228E2AE4789D007DD907 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		BD81DE6A2AE4611E009C6D4B /* multi-flashcards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "multi-flashcards.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD81DE6D2AE4611E009C6D4B /* multi_flashcardsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multi_flashcardsApp.swift; sourceTree = "<group>"; };
@@ -43,6 +51,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		159539602B533A9B0093EBD0 /* AsyncContentLoader */ = {
+			isa = PBXGroup;
+			children = (
+				159539612B533A9B0093EBD0 /* LoadingState.swift */,
+				159539622B533A9B0093EBD0 /* LoadableObject.swift */,
+				159539632B533A9B0093EBD0 /* AsyncContentView.swift */,
+			);
+			path = AsyncContentLoader;
+			sourceTree = "<group>";
+		};
 		BD81DE612AE4611E009C6D4B = {
 			isa = PBXGroup;
 			children = (
@@ -63,12 +81,14 @@
 			isa = PBXGroup;
 			children = (
 				BD81DE6D2AE4611E009C6D4B /* multi_flashcardsApp.swift */,
+				159539672B533B1A0093EBD0 /* APIHandler.swift */,
 				BD81DE6F2AE4611E009C6D4B /* ContentView.swift */,
 				BD5C228E2AE4789D007DD907 /* ReviewView.swift */,
 				BDE1EB772AE469AB00ED1216 /* DeckManagerView.swift */,
 				BDE6F5E12AE74C5B00FCDB8E /* CardView.swift */,
 				BD81DE7C2AE461E0009C6D4B /* Card.swift */,
 				BD81DE7E2AE461F8009C6D4B /* Deck.swift */,
+				159539602B533A9B0093EBD0 /* AsyncContentLoader */,
 				BD81DE712AE4611F009C6D4B /* Assets.xcassets */,
 				BD81DE732AE4611F009C6D4B /* multi_flashcards.entitlements */,
 				BD81DE742AE4611F009C6D4B /* Preview Content */,
@@ -156,11 +176,15 @@
 			files = (
 				BDE6F5E22AE74C5B00FCDB8E /* CardView.swift in Sources */,
 				BD81DE7F2AE461F8009C6D4B /* Deck.swift in Sources */,
+				159539652B533A9B0093EBD0 /* LoadableObject.swift in Sources */,
 				BD81DE702AE4611E009C6D4B /* ContentView.swift in Sources */,
+				159539682B533B1A0093EBD0 /* APIHandler.swift in Sources */,
 				BDE1EB782AE469AB00ED1216 /* DeckManagerView.swift in Sources */,
+				159539642B533A9B0093EBD0 /* LoadingState.swift in Sources */,
 				BD81DE7D2AE461E0009C6D4B /* Card.swift in Sources */,
 				BD5C228F2AE4789D007DD907 /* ReviewView.swift in Sources */,
 				BD81DE6E2AE4611E009C6D4B /* multi_flashcardsApp.swift in Sources */,
+				159539662B533A9B0093EBD0 /* AsyncContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -33,7 +33,7 @@ class Card: ObservableObject, Identifiable, Codable {
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = try values.decode(UUID.self, forKey: .id)
+        id = (try? values.decode(UUID.self, forKey: .id)) ?? UUID()
         term = try values.decode(String.self, forKey: .term)
         definition = try values.decode(String.self, forKey: .definition)
     }
