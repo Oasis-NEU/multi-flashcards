@@ -12,18 +12,18 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
     var content: (Source.Output) -> Content
         
     var body: some View {
-        switch source.state {
-        case .idle:
-            Color.clear
-                .onAppear {
-                    source.load()
-                }
-        case .loading:
-            ProgressView()
-        case .failed(let error):
-            Text(error.localizedDescription)
-        case .loaded(let output):
-            content(output)
+        Group {
+            switch source.state {
+            case .loading:
+                ProgressView()
+            case .failed(let error):
+                Text(error.localizedDescription)
+            case .loaded(let output):
+                content(output)
+            }
+        }
+        .task {
+            source.load()
         }
     }
 }

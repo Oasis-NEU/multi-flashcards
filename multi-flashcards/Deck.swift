@@ -14,7 +14,7 @@ struct DeckManagerProps {
 
 class Deck: LoadableObject, Codable {
     
-    @Published var state: LoadingState<DeckManagerProps> = .idle
+    @Published var state: LoadingState<DeckManagerProps> = .loading
     
     @Published var cards: [Card] {
         didSet {
@@ -41,6 +41,7 @@ class Deck: LoadableObject, Codable {
     }
     
     func load() {
+        UserDefaults.standard.removeObject(forKey: "cards")
         if let savedData = UserDefaults.standard.object(forKey: "cards") as? Data {
             do {
                 // 2
@@ -58,7 +59,6 @@ class Deck: LoadableObject, Codable {
     }
     
     func retrieveDeckFromServer() {
-        self.transitionState(.loading)
         Task {
             do {
                 let deck = try await APIHandler.getDeck()
