@@ -13,24 +13,28 @@ struct CardView: View {
     let card: Card
     
     var body: some View {
-        ZStack {
-            Text(card.term)
-                .frame(minWidth: 180, minHeight: 120)
-                .zIndex(showTerm ? 1 : -1)
-            
-            Color(.cardBackground)
-                .aspectRatio(CGSize(width: 5, height: 3), contentMode: .fit)
-                .zIndex(0)
-            
-            Text(card.definition)
-                .rotation3DEffect(Angle(degrees: 180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                .zIndex(!showTerm ? 1 : -1)
+        Button {
+                showTerm.toggle()
+        } label: {
+            ZStack {
+                Text(card.term)
+                    .frame(minWidth: 180, minHeight: 120)
+                    .zIndex(showTerm ? 1 : -1)
+                
+                Color(.cardBackground)
+                    .aspectRatio(CGSize(width: 5, height: 3), contentMode: .fit)
+                    .zIndex(0)
+                
+                Text(card.definition)
+                    .rotation3DEffect(Angle(degrees: 180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    .zIndex(!showTerm ? 1 : -1)
+            }
+            .rotation3DEffect(showTerm ? .zero : Angle(degrees: 180), axis: (x: 0.0, y: 1.0, z: 0.0))
+            .animation(.bouncy, value: showTerm)
         }
-        .rotation3DEffect(showTerm ? .zero : Angle(degrees: 180), axis: (x: 0.0, y: 1.0, z: 0.0))
-        .animation(.bouncy, value: showTerm)
-        .onTapGesture {
-            showTerm.toggle()
-        }
+        .buttonStyle(.plain)
+        
+        
     }
 }
 

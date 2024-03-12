@@ -18,7 +18,9 @@ struct ReviewView: View {
                 ForEach(0 ..< deck.cards.count, id: \.self) { index in
                     CardView(card: deck.cards[index])
                         .clipShape(.rect(cornerRadius: 12.0))
+                    #if os(iOS)
                         .contentShape(.contextMenuPreview, .rect(cornerRadius: 12.0))
+                    #endif
                         .contextMenu {
                             Button("Delete card", systemImage: "trash", role: .destructive) {
                                 deck.cards.remove(at: index)
@@ -38,6 +40,37 @@ struct ReviewView: View {
             .animation(.default, value: current)
             #if os(iOS)
             .tabViewStyle(.page)
+            #endif
+            .overlay {
+                HStack {
+                    Button("Previous", systemImage: "arrow.left") {
+                        current = current > 0 ? current - 1 : current
+                    }
+                    .padding()
+                    .keyboardShortcut(.leftArrow, modifiers: [])
+                    .labelStyle(.iconOnly)
+                    .imageScale(.large)
+                    .buttonStyle(.bordered)
+                    .buttonBorderShape(.circle)
+                    
+                    Spacer()
+                    
+                    Button("Next", systemImage: "arrow.right") {
+                        current = current < deck.cards.count ? current + 1 : 0
+                    }
+                    .padding()
+                    .keyboardShortcut(.rightArrow, modifiers: [])
+                    .labelStyle(.iconOnly)
+                    .imageScale(.large)
+                    .buttonStyle(.bordered)
+                    .buttonBorderShape(.circle)
+                }
+                .padding()
+            }
+            
+            #if os(macOS)
+            Spacer()
+                .frame(height: 120)
             #endif
         }
         .overlay(alignment: .bottom) {

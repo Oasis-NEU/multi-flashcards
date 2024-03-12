@@ -11,7 +11,7 @@ struct DeckManagerView: View {
     
     @ObservedObject var deck: Deck
     
-    @State var showAddSheet = true
+    @State var showAddSheet = false
     @State var term = ""
     @State var definition = ""
     
