@@ -41,7 +41,6 @@ app.post("/card", (req: Request, res: Response) => {
   try {
     const { body } = req;
 
-    console.log(body)
     if (!body.term || !body.definition) {
       throw new Error("Invalid card, must have term and definition fields");
     }
@@ -74,7 +73,7 @@ app.delete("/card/:id", (req: Request, res: Response) => {
 
     const index = cards.findIndex((card) => card.id === cardId);
     if (index === -1) {
-      res.status(404).send("Card not found");
+      throw new Error(`Card with id: ${id} not found`);
     } else {
       cards.splice(index, 1);
       res.send(JSON.stringify(deck));
