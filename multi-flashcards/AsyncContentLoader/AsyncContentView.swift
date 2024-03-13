@@ -13,14 +13,7 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
         
     var body: some View {
         Group {
-            switch source.state {
-            case .loading:
-                ProgressView()
-            case .failed(let error):
-                Text(error.localizedDescription)
-            case .loaded(let output):
-                content(output)
-            }
+           // Switch the sources loading state, if its loading, show the ProgressView, if its failed, show some text displaying the error to the user. If Its loaded then show the content with the supplied output.
         }
         .task {
             source.load()
