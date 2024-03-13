@@ -7,21 +7,17 @@
 
 import Foundation
 
-
 class Card: ObservableObject, Identifiable, Codable {
-    
     // MARK: Properties & Simple Init
     
-    private(set) var id: UUID
+    private(set) var id: Int?
     @Published var term: String
     @Published var definition: String
     
     init(term: String, definition: String) {
-        self.id = UUID()
         self.term = term
         self.definition = definition
     }
-    
     
     // MARK: Encodable / Decodable
     
@@ -33,7 +29,7 @@ class Card: ObservableObject, Identifiable, Codable {
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = (try? values.decode(UUID.self, forKey: .id)) ?? UUID()
+        id = try values.decode(Int.self, forKey: .id)
         term = try values.decode(String.self, forKey: .term)
         definition = try values.decode(String.self, forKey: .definition)
     }
@@ -45,4 +41,3 @@ class Card: ObservableObject, Identifiable, Codable {
         try container.encode(definition, forKey: .definition)
     }
 }
-
