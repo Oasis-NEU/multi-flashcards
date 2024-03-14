@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct DeckManagerView: View {
-    
     @ObservedObject var deck: Deck
     
     @State var showAddSheet = false
@@ -28,7 +27,7 @@ struct DeckManagerView: View {
                 .font(.headline)
                 .textFieldStyle(.roundedBorder)
             TextField("Definition", text: $definition, axis: .vertical)
-                .lineLimit(3...8)
+                .lineLimit(3 ... 8)
                 .frame(minHeight: 36)
                 .textFieldStyle(.roundedBorder)
                 .onSubmit(insertNewCard)
@@ -42,66 +41,67 @@ struct DeckManagerView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(deck.cards) { card in
-                    VStack(alignment: .leading) {
-                        Text(card.term)
-                            .font(.headline)
-                        Text(card.definition)
-                            .font(.caption)
+        AsyncContentView(source: self.deck) { props in
+            NavigationStack {
+                List {
+                    ForEach(props.cards) { card in
+                        VStack(alignment: .leading) {
+                            Text(card.term)
+                                .font(.headline)
+                            Text(card.definition)
+                                .font(.caption)
+                        }
                     }
+                    .onMove(perform: { source, destination in
+                        deck.cards.move(fromOffsets: source, toOffset: destination)
+                    })
+                    .onDelete(perform: { offsets in
+                        deck.remove(atOffsets: offsets)
+                    })
                 }
-                .onMove(perform: { source, destination in
-                    deck.cards.move(fromOffsets: source, toOffset: destination)
-                })
-                .onDelete(perform: { offsets in
-                    deck.cards.remove(atOffsets: offsets)
-                })
-            }
-            .navigationTitle("Your flashcards")
-            .toolbar {
-                ToolbarItem(placement: .automatic) {
-                    Button("Add card", systemImage: "plus") {
-                        showAddSheet = true
+                .navigationTitle("Your flashcards")
+                .toolbar {
+                    ToolbarItem(placement: .automatic) {
+                        Button("Add card", systemImage: "plus") {
+                            showAddSheet = true
+                        }
                     }
+                    
+#if os(iOS)
+                    ToolbarItem(placement: .automatic) {
+                        EditButton()
+                    }
+#endif
                 }
-                
-                #if os(iOS)
-                ToolbarItem(placement: .automatic) {
-                    EditButton()
-                }
-                #endif
             }
-        }
-        .sheet(isPresented: $showAddSheet) {
-            addCardSheet
-                .padding()
-                .presentationDetents([.medium, .large])
+            .sheet(isPresented: $showAddSheet) {
+                addCardSheet
+                    .padding()
+                    .presentationDetents([.medium, .large])
+            }
         }
     }
     
     func insertNewCard() {
         // Check for edge case
-        if (term.isEmpty || definition.isEmpty) { return }
+        if term.isEmpty || definition.isEmpty { return }
         
         // Insert card
         let newCard = Card(term: term, definition: definition)
-        deck.cards.append(newCard)
-        
+        self.deck.createCard(newCard)
+            
         // Close the sheet
-        showAddSheet = false
-        
+        self.showAddSheet = false
+            
         // Reset input
-        term = ""
-        definition = ""
-        
+        self.term = ""
+        self.definition = ""
     }
 }
 
 struct DeckManagerView_Previews: PreviewProvider {
     static var previews: some View {
         DeckManagerView(deck: Deck())
-            .frame(minWidth: 60, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 60, idealHeight: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            .frame(minWidth: 60, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, minHeight: 60, idealHeight: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/)
     }
 }

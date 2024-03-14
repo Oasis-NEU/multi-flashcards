@@ -8,53 +8,83 @@
 import Foundation
 import Observation
 
-class Deck: ObservableObject {
+struct DeckManagerProps {
+    var cards: [Card]
+}
+
+class Deck: LoadableObject, Codable {
+    @Published var state: LoadingState<DeckManagerProps> = .loading
     
-    @Published var cards: [Card] {
-        didSet {
-            print("Change observed")
-            do {
-                let encodedData = try JSONEncoder().encode(cards)
-                UserDefaults.standard.set(encodedData, forKey: "cards")
-                print("Saved")
-            } catch {
-                // Failed to encode Card to Data
-                print("Failed to decode cards.")
-            }
-        }
-    }
+    @Published var cards: [Card] = []
     
     init(cards: [Card]) {
         self.cards = cards
+        self.transitionState(.loaded(.init(cards: cards)))
     }
     
     init() {
-        if let savedData = UserDefaults.standard.object(forKey: "cards") as? Data {
-
+        self.cards = []
+    }
+    
+    // Queries the server for a deck of cards and loads the page once completed
+    func load() {
+        Task {
             do {
-                // 2
-                self.cards = try JSONDecoder().decode([Card].self, from: savedData)
-
+                let deck = try await APIHandler.getDeck()
+                DispatchQueue.main.async {
+                    self.cards = deck.cards
+                    self.transitionState(.loaded(.init(cards: deck.cards)))
+                }
             } catch {
-                // Failed to convert Data to Cards
-                print("Failed to load previous version.")
-                self.cards = [
-                    Card(term: "安静", definition: "an1 jing4 - quiet, peaceful"),
-                    Card(term: "爸爸", definition: "ba4 ba5 - father (informal)"),
-                    Card(term: "办法", definition: "ban4 fa3 - method; way of doing"),
-                    Card(term: "帮助", definition: "bang1 zhu4 - help; assist"),
-                    Card(term: "比较", definition: "bi3 jiao4 - compare; relatively")
-                ]
+                self.transitionState(.failed(error))
             }
-        } else {
-            print("Could not locate previous version.")
-            self.cards = [
-                Card(term: "安静", definition: "an1 jing4 - quiet, peaceful"),
-                Card(term: "爸爸", definition: "ba4 ba5 - father (informal)"),
-                Card(term: "办法", definition: "ban4 fa3 - method; way of doing"),
-                Card(term: "帮助", definition: "bang1 zhu4 - help; assist"),
-                Card(term: "比较", definition: "bi3 jiao4 - compare; relatively")
-            ]
         }
+    }
+    
+    func remove(atOffsets: IndexSet) {
+        self.transitionState(.loading)
+        Task {
+            do {
+                let card = self.cards[atOffsets.first!]
+                let deck = try await APIHandler.removeCard(card)
+                DispatchQueue.main.async {
+                    self.cards = deck.cards
+                    self.transitionState(.loaded(.init(cards: deck.cards)))
+                }
+            } catch {
+                self.transitionState(.failed(error))
+            }
+        }
+    }
+    
+    func createCard(_ card: Card) {
+        self.transitionState(.loading)
+        Task {
+            do {
+                let deck = try await APIHandler.createCard(card)
+                DispatchQueue.main.async {
+                    self.cards = deck.cards
+                    self.transitionState(.loaded(.init(cards: deck.cards)))
+                }
+            } catch {
+                self.transitionState(.failed(error))
+            }
+        }
+    }
+    
+    // MARK: Encodable / Decodable
+
+    enum CodingKeys: CodingKey {
+        case cards
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.cards = try values.decode([Card].self, forKey: .cards)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.cards, forKey: .cards)
     }
 }
