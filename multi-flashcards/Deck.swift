@@ -42,34 +42,11 @@ class Deck: LoadableObject, Codable {
     }
     
     func remove(atOffsets: IndexSet) {
-        self.transitionState(.loading)
-        Task {
-            do {
-                let card = self.cards[atOffsets.first!]
-                let deck = try await APIHandler.removeCard(card)
-                DispatchQueue.main.async {
-                    self.cards = deck.cards
-                    self.transitionState(.loaded(.init(cards: deck.cards)))
-                }
-            } catch {
-                self.transitionState(.failed(error))
-            }
-        }
+        // Locate the selected card from the index, Call the API function that deletes the card. Make sure you dont block the main thread and handle errors appropriately, view the load function for inspiration
     }
     
     func createCard(_ card: Card) {
-        self.transitionState(.loading)
-        Task {
-            do {
-                let deck = try await APIHandler.createCard(card)
-                DispatchQueue.main.async {
-                    self.cards = deck.cards
-                    self.transitionState(.loaded(.init(cards: deck.cards)))
-                }
-            } catch {
-                self.transitionState(.failed(error))
-            }
-        }
+        // Look at how remove and get are made, fill in the create function following a similar pattern
     }
     
     // MARK: Encodable / Decodable

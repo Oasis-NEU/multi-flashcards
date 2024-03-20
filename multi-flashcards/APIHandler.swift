@@ -61,11 +61,7 @@ final class APIHandler {
      - throws: An error if the request fails
      */
     static func removeCard(_ card: Card) async throws -> Deck {
-        guard let id = card.id else {
-            throw APIError.cardMustHaveIdFor(operation: "Delete Card")
-        }
-        
-        let url = URL(string: Self.baseURL + "/card/\(id)")!
+        let url = URL(string: Self.baseURL + "/card/\(card.id)")!
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         

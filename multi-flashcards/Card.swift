@@ -10,11 +10,12 @@ import Foundation
 class Card: ObservableObject, Identifiable, Codable {
     // MARK: Properties & Simple Init
     
-    private(set) var id: Int?
+    private(set) var id: Int
     @Published var term: String
     @Published var definition: String
     
     init(term: String, definition: String) {
+        self.id = Int(Date.now.timeIntervalSince1970)
         self.term = term
         self.definition = definition
     }
